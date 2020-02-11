@@ -1,0 +1,17 @@
+execution:
+- iterations: 50
+  concurrency: 10
+  ramp-up: 10s
+  hold-for: 30s
+  scenario: with_script
+
+scenarios:
+  with_script:
+    script: loadfile.jmx
+    
+reporting:
+- module: blazemeter
+- module: passfail
+  criteria:
+  - "avg-rt>0.5s for 10s, continue as failed"
+  - "fail>50% for 10s, stop as failed"
