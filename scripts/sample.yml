@@ -25,12 +25,12 @@ scenarios:
       url: https://google.com
       
 services:
-- module: shellexec
-  post-process:
-   - awk 'FNR==1 && NR!=1{next;}{print}' ${TAURUS_ARTIFACTS_DIR}/kpi*.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl
-   - awk -F',' -v OFS=',' '$7 = $7 FS "failureMessage"' ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter.jtl
-   - find ~/.bzt -type f -name "jmeter" -exec ln -f -s {} . ';'
-   - ./jmeter -f -g ${TAURUS_ARTIFACTS_DIR}/jmeter.jtl -o ${TAURUS_ARTIFACTS_DIR}/HtmlReports
+  - module: shellexec
+    post-process:
+      - awk 'FNR==1 && NR!=1{next;}{print}' ${TAURUS_ARTIFACTS_DIR}/kpi*.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter_stats_full.jtl
+      - awk -F',' -v OFS=',' '$7 = $7 FS "failureMessage"' ${TAURUS_ARTIFACTS_DIR}/jmeter_stats_full.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl
+      - find ~/.bzt -type f -name "jmeter" -exec ln -f -s {} . ';'
+      - ./jmeter -f -g ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl -o ${TAURUS_ARTIFACTS_DIR}/jmeterHtmlReports
 
 reporting:
 #- module: passfail
@@ -45,4 +45,7 @@ reporting:
   test-duration: true
   dump-csv: ${TAURUS_ARTIFACTS_DIR}/stats.csv
   dump-xml: ${TAURUS_ARTIFACTS_DIR}/stats.xml
+
+
+
 
