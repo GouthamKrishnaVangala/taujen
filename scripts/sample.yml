@@ -4,6 +4,17 @@ execution:
   ramp-up: 10s
   scenario: Google
 
+modules:
+  jmeter:
+    path: ~/.bzt/jmeter-taurus/bin/jmeter
+    download-link: https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.2.1.zip
+    version: 5.2.1  # minimal supported version of JMeter is 2.9
+    force-ctg: true   # true by default
+    detect-plugins: true
+    plugins:
+    - jpgc-json=2.2
+    - jmeter-ftp
+    - jpgc-casutg
 
 
 scenarios:
@@ -16,16 +27,16 @@ scenarios:
 services:
 - module: shellexec
   post-process:
-   - awk 'FNR==1 && NR!=1{next;}{print}' ${TAURUS_ARTIFACTS_DIR}/kpi*.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter_stats_full.jtl
-   - awk -F',' -v OFS=',' '$7 = $7 FS "failureMessage"' ${TAURUS_ARTIFACTS_DIR}/jmeter_stats_full.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl
+   - awk 'FNR==1 && NR!=1{next;}{print}' ${TAURUS_ARTIFACTS_DIR}/kpi*.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl
+   - awk -F',' -v OFS=',' '$7 = $7 FS "failureMessage"' ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl > ${TAURUS_ARTIFACTS_DIR}/jmeter.jtl
    - find ~/.bzt -type f -name "jmeter" -exec ln -f -s {} . ';'
-   - ./jmeter -f -g ${TAURUS_ARTIFACTS_DIR}/jmeter_stats.jtl -o ${TAURUS_ARTIFACTS_DIR}/jmeterHtmlReports
+   - ./jmeter -f -g ${TAURUS_ARTIFACTS_DIR}/jmeter.jtl -o ${TAURUS_ARTIFACTS_DIR}/HtmlReports
 
 reporting:
-- module: passfail
-  criteria:
-  - "avg-rt>700ms for 10s, continue as failed"
-  - "fail>50% for 10s, stop as failed"
+#- module: passfail
+#  criteria:
+#  - "avg-rt>1200ms for 10s, continue as failed"
+#  - "fail>50% for 10s, stop as failed"
 - module: final-stats
   summary: true
   percentiles: true
