@@ -2,15 +2,15 @@ execution:
 - concurrency: 100
   hold-for: 10s
   ramp-up: 10s
-  scenario: Google
+  scenario: Mosaiq
 
 
 scenarios:
-  Google:
+  Mosaiq:
     requests:
-    - label: blazedemo
+    - label: PerformanceTestPoC
       method: GET
-      url: https://google.com
+      url: https://store.mosaiq.one
       
 services:
   - module: shellexec
