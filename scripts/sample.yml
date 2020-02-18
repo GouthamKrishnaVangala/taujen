@@ -2,15 +2,15 @@ execution:
 - concurrency: 100
   hold-for: 10s
   ramp-up: 10s
-  scenario: Mosaiq
+  scenario: CodeTasty
 
 
 scenarios:
-  Mosaiq:
+  CodeTasty:
     requests:
     - label: PerformanceTestPoC
       method: GET
-      url: https://store.mosaiq.one
+      url: https://codetasty.com
       
 services:
   - module: shellexec
