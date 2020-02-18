@@ -1,5 +1,5 @@
 execution:
-- concurrency: 100
+- concurrency: 10
   hold-for: 10s
   ramp-up: 10s
   scenario: CodeTasty
