@@ -8,7 +8,7 @@ execution:
 
 scenarios:
   CodeTasty:
-    #keepalive: true
+    keepalive: true
     #requests:
     #- label: PerformanceTestPoC
     #  method: GET
