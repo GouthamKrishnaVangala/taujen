@@ -8,11 +8,11 @@ execution:
 
 scenarios:
   CodeTasty:
-    keepalive: true
-    #requests:
-    #- label: PerformanceTestPoC
-    #  method: GET
-    #  url: https://codetasty.com
+    #keepalive: true
+    requests:
+    - label: PerformanceTestPoC
+      method: GET
+      url: https://codetasty.com
       
 services:
 - module: shellexec
